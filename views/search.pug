@@ -1,0 +1,28 @@
+extends layout
+
+include mixins/_postCard
+include mixins/_pagination
+
+block content
+  .container
+    .row.text-center
+      .col-lg-3
+      .col-lg-6
+        br
+        form(action="/search" method="GET")
+          .form-group
+            input(type="text" name="q" placeholder="Search Post").form-control
+        br
+      .col-lg-3
+    .row.text-center
+      .col-lg-12
+        p.headTitle= `Search results for "${pageTitle}"`
+        hr
+    .row.text-center
+      .col-lg-12
+        if posts.length >= 1
+          each post in posts
+            +postCard(post)
+          +pagination(page, pages, count).text-center
+        else
+          .alert.alert-danger Could not find any matching Post for that search!

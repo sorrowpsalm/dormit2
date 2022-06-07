@@ -1,0 +1,35 @@
+extends layout
+
+include mixins/_commentCard
+
+block content
+  .container
+    .row.text-center
+      .col-lg-12
+        h4= post.title
+        br
+    .row.text-center
+      .col-lg-3
+      .col-lg-6
+        p.text-justify= post.content
+      .col-lg-3
+    .row.text-center
+      br
+      .col-lg-3
+      .col-lg-6
+        h4.headTitle Comments
+        br
+        if user
+          form(action="/comment" method="POST")
+            .form-group
+              input(type="hidden" name="_csrf" value=csrftoken)
+              input(type="hidden" name="article" value=post._id)
+              textarea(name="comment" rows="4" placeholder="Comment").form-control
+            .form-group
+              button.btn.btn-app.btn-block(type="submit" name="submit") Submit
+        else
+          .alert.alert-danger Login to Post Comments
+        br
+        each comment in post.comments
+            +commentCard(comment)
+      .col-lg-3
